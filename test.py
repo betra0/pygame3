@@ -1,5 +1,1 @@
-# This is Git's per-user configuration file.
-[user]
-# Please adapt and uncomment the following lines:
-#       name = betra0
-#       email = tolozadanil5@gmail.com
+#hola payaso tu puta madre 
