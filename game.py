@@ -41,6 +41,7 @@ class Game():
         self.fps = 60
 
         self.run = True
+        self.salir = False 
 
         self.last_time = pygame.time.get_ticks()  # Guardar el tiempo del último ciclo
 
@@ -51,12 +52,12 @@ class Game():
             self.agregarplataformas()
             self.update()
             self.colisiones()
+            self.statusobjet()
             self.render()
             
-
             self.limitfps.tick(60)
+        return self.salir
         
-        pygame.quit()
 
     def update(self):
         current_time = pygame.time.get_ticks()  # Tiempo actual
@@ -78,6 +79,7 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                self.run=False
+               self.salir = True
     
     def agregarplataformas(self):
         distancia_maxima = 200
@@ -91,7 +93,6 @@ class Game():
         if self.proximaplataforma:
             self.proximaplataforma -= 4
 
-        print(self.proximaplataforma)
     
     def newplataforma(self):
             distancia_maxima = 350
@@ -104,9 +105,6 @@ class Game():
             self.plataformas.add(self.plataforma1)
             self.ancho_plataforma_anterior = newancho
             self.proximaplataforma = random.randint(newancho+60, newancho+distancia_maxima)
-
-
-
 
 
 
@@ -153,20 +151,11 @@ class Game():
 
 
         
+    def statusobjet(self):
+        if self.jugador1.statuskill():
+            print("hello")
+            self.run = False
+    
+    def salirgame(self):
+        pygame.quit()
 
-
-
-
-
-
-
-
-
-
-
-            # Colisión en el lado derecho
-           #if suelo.rect.left < self.jugador1.rect.right:
-           #    self.jugador1.posx += suelo.rect.right - self.jugador1.rect.left
-           #    self.jugador1.velx = 0
-
-        

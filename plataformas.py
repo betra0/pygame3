@@ -7,7 +7,7 @@ class Plataforma(objetopy):
         y = ((alto -ytop))//2+ytop
         super().__init__(x, y)
         self.image = pygame.Surface((ancho_plataforma, ((alto -ytop))))
-        self.image.fill((100, 128, 255))
+        self.image.fill((80, 80, 120))
         self.initrect()
         self.info = "hola que hace dsajkl"
 

@@ -9,7 +9,8 @@ class objetopy(pygame.sprite.Sprite):
         self.image = pygame.Surface((self.tamaño, self.tamaño))
         self.image.fill((100, 128, 255))
         self.rect = self.image.get_rect()
-        self.rect.center = self.posx, self.posy 
+        self.rect.center = self.posx, self.posy
+        self.iskill =False
 
         self.sueloartificial = False
         self.fricion = 0.5
@@ -44,11 +45,11 @@ class objetopy(pygame.sprite.Sprite):
     def simulargravedad(self):
         if not self.isonfloor(6):
             self.vely += self.gravedad
-    def isonfloor(self, n = 0):
+    def isonfloor(self, n = 0, pizolimite = False):
         retorno = False
         if not self.sueloartificial :
         
-            if self.posy+self.tamaño/2+n >= alto:
+            if self.posy+self.tamaño/2+n >= alto and pizolimite:
                 retorno = True
         else:
             retorno = True
@@ -65,5 +66,18 @@ class objetopy(pygame.sprite.Sprite):
             
         elif self.velx  < 0:
             self.velx += fricion
+    def killxlimit(self ,limitleft = True, limitecaida = True, limite2 = True, limitetecho =True):
+        print(self.rect.top,  self.rect.right)
+        if limitecaida and self.rect.top > alto+15:
+            
+            self.iskill = True
+        if limitleft and self.rect.right < -10:
+            self.iskill = True
+            
+            
+    def statuskill(self):
+        return self.iskill
+
+
 
         
