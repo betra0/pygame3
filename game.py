@@ -2,9 +2,10 @@ import pygame
 from jugador import (Jugador, objetopy)
 from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT, 
             K_ESCAPE, KEYDOWN, QUIT, K_w, K_s, K_d, K_a, K_SPACE)
-from var import (size)
+from var import (size, ancho, alto)
 from background import Background
 from plataformas import Plataforma
+import random
 class Game():
     def __init__(self):
         pygame.init()
@@ -19,10 +20,13 @@ class Game():
         self.fondo = pygame.sprite.Group()
         self.plataformas= pygame.sprite.Group()
         self.jugador1 = Jugador()
-        self.plataforma = Plataforma(400, 600, 500)
+        self.plataforma = Plataforma(800, 500, 600)
 
         self.all.add(self.plataforma)
         self.plataformas.add(self.plataforma)
+        
+
+       
     
         
         self.background1 = Background(True, 20, "2", 0)
@@ -32,7 +36,8 @@ class Game():
         
         self.all.add(self.jugador1)
         
-
+        self.ancho_plataforma_anterior = None
+        self.proximaplataforma = None
         self.fps = 60
 
         self.run = True
@@ -43,6 +48,7 @@ class Game():
     def mainrun(self):
         while self.run:
             self.event()
+            self.agregarplataformas()
             self.update()
             self.colisiones()
             self.render()
@@ -72,6 +78,38 @@ class Game():
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                self.run=False
+    
+    def agregarplataformas(self):
+        distancia_maxima = 200
+        if not self.ancho_plataforma_anterior:
+
+            self.newplataforma()
+        
+        elif self.ancho_plataforma_anterior and self.proximaplataforma <= 0:
+
+            self.newplataforma()
+        if self.proximaplataforma:
+            self.proximaplataforma -= 4
+
+        print(self.proximaplataforma)
+    
+    def newplataforma(self):
+            distancia_maxima = 350
+            newancho = random.randint(70, 500)
+            x = ancho + newancho//2
+            newalto = random.randint(450,alto-50)
+            self.plataforma1 = Plataforma(newancho, x, newalto)
+             
+            self.all.add(self.plataforma1)
+            self.plataformas.add(self.plataforma1)
+            self.ancho_plataforma_anterior = newancho
+            self.proximaplataforma = random.randint(newancho+60, newancho+distancia_maxima)
+
+
+
+
+
+
     def colisiones(self):
         suelo = pygame.sprite.spritecollideany(self.jugador1, self.plataformas)
         if suelo:

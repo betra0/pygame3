@@ -13,8 +13,8 @@ class objetopy(pygame.sprite.Sprite):
 
         self.sueloartificial = False
         self.fricion = 0.5
-        self.velocidad = 18
-        self.gravedad = 0.5
+        self.velocidad = 0
+        self.gravedad = 0.2
         self.velx = 0
         self.vely = 0
     

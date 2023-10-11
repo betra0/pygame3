@@ -16,6 +16,7 @@ class Jugador(objetopy):
         self.cantidad_salto = 1
         self.en_el_suelo = False  # Variable para rastrear si el jugador está en el suelo
         self.pisoinfo = None
+        self.velocidad = 9
         
         
 
@@ -23,9 +24,9 @@ class Jugador(objetopy):
         keys = pygame.key.get_pressed()
         
         if keys[K_d]:
-            self.velx = 5
+            self.velx = 2
         if keys[K_a]:
-            self.velx = -5
+            self.velx = -2
         if keys[K_w] or keys[K_SPACE]:
             self.salto_presionado = True
         else:
