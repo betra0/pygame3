@@ -20,7 +20,6 @@ bla bla
 class Background(pygame.sprite.Sprite):
     def __init__(self, add_background, speed, file_num, y_offset):
         super(Background, self).__init__()
-
         self.add_background = add_background
         self.speed = speed
         self.y_offset = y_offset

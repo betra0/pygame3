@@ -1,5 +1,5 @@
-ancho =1000
-anchoingame= 1000
+ancho =1300
+anchoingame= 1300
 alto = 800
 limiteinterior =(ancho-anchoingame)//2
 size = (ancho, alto)
