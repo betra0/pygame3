@@ -5,6 +5,7 @@ from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT,
 from var import (size, ancho, alto)
 from background import Background
 from plataformas import Plataforma
+from botones import Boton_palay
 import random
 class Game():
     def __init__(self):
@@ -20,22 +21,25 @@ class Game():
         self.fondo = pygame.sprite.Group()
         self.plataformas= pygame.sprite.Group()
         self.jugador1 = Jugador()
-        self.plataforma = Plataforma(800, 500, 600)
-
+        self.botonplay1 = Boton_palay(100, 100, 50, 50)
+        self.all.add(self.botonplay1)
+        self.plataforma = Plataforma(ancho, ancho/2, 600)
         self.all.add(self.plataforma)
         self.plataformas.add(self.plataforma)
-        
-
-       
-    
-        
         self.background1 = Background(True, 20, "2", 0)
         self.background2 = Background(False, 50, "3", 40)
         self.fondo.add(self.background1)
         self.fondo.add(self.background2)
-        
         self.all.add(self.jugador1)
+
+        #====init controles externos
+        self.pressed_space = False
+        #======
+
         
+        
+        
+        self.dist_primeraplataforma = random.randint(90, 280)
         self.ancho_plataforma_anterior = None
         self.proximaplataforma = None
         self.fps = 60
@@ -45,26 +49,45 @@ class Game():
 
         self.last_time = pygame.time.get_ticks()  # Guardar el tiempo del último ciclo
 
-        
+    def menurun(self):
+        while self.run:
+            self.event()
+            self.update(True)
+            self.colisiones()
+            self.render()
+            if self.pressed_space:
+                break
+            self.limitfps.tick(60)
+        self.mainrun()
+        return self.salir
+
+
+       
     def mainrun(self):
         while self.run:
             self.event()
             self.agregarplataformas()
             self.update()
             self.colisiones()
-            self.statusobjet()
+            #self.statusobjet()
             self.render()
+            print(len(self.plataformas))
             
             self.limitfps.tick(60)
         return self.salir
         
 
-    def update(self):
+    def update(self, inicio = False):
         current_time = pygame.time.get_ticks()  # Tiempo actual
         delta_time = (current_time - self.last_time) / 1000.0  # Calcular delta_time en segundos
         self.last_time = current_time  # Actualizar el tiempo del último ciclo
 
-        self.all.update()
+        
+        if not inicio:
+            self.plataformas.update()
+            self.jugador1.update()
+        else:
+            self.jugador1.update(True)
         self.fondo.update(delta_time)
 
     def render(self):
@@ -80,12 +103,23 @@ class Game():
             if event.type == pygame.QUIT:
                self.run=False
                self.salir = True
+            elif event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    self.run=False
+                    self.salir = True
+                if event.key == K_SPACE:
+                    self.pressed_space = True
+                else:
+                    self.pressed_space = False
+            
     
     def agregarplataformas(self):
-        distancia_maxima = 200
         if not self.ancho_plataforma_anterior:
+            print("holadfkjlfdsljkfdsklj", self.dist_primeraplataforma)
+            self.dist_primeraplataforma -= 4
+            if self.dist_primeraplataforma <= 0:
 
-            self.newplataforma()
+                self.newplataforma()
         
         elif self.ancho_plataforma_anterior and self.proximaplataforma <= 0:
 
@@ -95,6 +129,7 @@ class Game():
 
     
     def newplataforma(self):
+            
             distancia_maxima = 350
             newancho = random.randint(70, 500)
             x = ancho + newancho//2
@@ -150,7 +185,7 @@ class Game():
                 self.jugador1.velx = 0
 
 
-        
+   
     def statusobjet(self):
         if self.jugador1.statuskill():
             print("hello")

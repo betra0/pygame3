@@ -6,5 +6,5 @@ salir = False
 while not salir:
     #juego.__init__()
     juego.initialize()
-    salir = juego.mainrun()
+    salir = juego.menurun()
 juego.salirgame()      

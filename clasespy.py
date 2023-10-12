@@ -67,7 +67,7 @@ class objetopy(pygame.sprite.Sprite):
         elif self.velx  < 0:
             self.velx += fricion
     def killxlimit(self ,limitleft = True, limitecaida = True, limite2 = True, limitetecho =True):
-        print(self.rect.top,  self.rect.right)
+        #print(self.rect.top,  self.rect.right)
         if limitecaida and self.rect.top > alto+15:
             
             self.iskill = True
