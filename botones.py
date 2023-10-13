@@ -14,11 +14,14 @@ class Boton_palay(objetopy):
         self.image = pygame.image.load(imagen_path).convert_alpha()
         self.image = pygame.transform.scale(self.image, (ancho_p, alto_p))
         self.initrect()
+
+        self.botonpresionado = False
+
     def update(self):
         botones_presionados = pygame.mouse.get_pressed()  # Obtiene el estado de los botones del ratón
 
         if botones_presionados[0] and self.rect.collidepoint(pygame.mouse.get_pos()):
-            self.clic()
+            self.botonpresionado = True
+        else:
+            self.botonpresionado = False
             
-    def clic(self):
-        print("holaa")

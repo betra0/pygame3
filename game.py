@@ -17,27 +17,31 @@ class Game():
         self.initialize()
 
     def initialize(self):
+        # =======Inicializar grupos======== 
         self.all = pygame.sprite.Group()
         self.fondo = pygame.sprite.Group()
         self.plataformas= pygame.sprite.Group()
+        self.botones = pygame.sprite.Group()
+        #=============FIN====================
+        #============0Init objetos0========
         self.jugador1 = Jugador()
-        self.botonplay1 = Boton_palay(ancho/2, alto/2, 15)
-        self.all.add(self.botonplay1)
         self.plataforma = Plataforma(ancho, ancho/2, 600)
-        self.all.add(self.plataforma)
-        self.plataformas.add(self.plataforma)
         self.background1 = Background(True, 20, "2", 0)
         self.background2 = Background(False, 50, "3", 40)
+        #================FIN===============
+        #==============ADD.Group========
+        self.all.add(self.plataforma)
+        self.plataformas.add(self.plataforma)
         self.fondo.add(self.background1)
         self.fondo.add(self.background2)
         self.all.add(self.jugador1)
 
+        
+
         #====init controles externos
         self.pressed_space = False
+        self.pressed_esc = False
         #======
-
-        
-        
         
         self.dist_primeraplataforma = random.randint(90, 280)
         self.ancho_plataforma_anterior = None
@@ -50,18 +54,20 @@ class Game():
         self.last_time = pygame.time.get_ticks()  # Guardar el tiempo del último ciclo
 
     def menurun(self):
+        #inicializar botonoes menu
+        self.initlayermenu()
         while self.run:
             self.event()
             self.update(True)
             self.colisiones()
             self.render()
-            if self.pressed_space:
+            if self.pressed_space or self.botonplay.botonpresionado:
                 break
             self.limitfps.tick(60)
+
+        self.killgroup(self.botones)    
         self.mainrun()
         return self.salir
-
-
        
     def mainrun(self):
         while self.run:
@@ -71,10 +77,20 @@ class Game():
             self.colisiones()
             self.statusobjet()
             self.render()
-            print(len(self.plataformas))
+            if self.pressed_esc:
+                print("hola")
+                self.pausa()
             
             self.limitfps.tick(60)
-        return self.salir
+
+    def pausa(self):
+        self.pressed_esc = False
+        while self.run:
+            self.event()
+            self.render()
+            if self.pressed_esc or self.pressed_space:
+                break
+        pass    
         
 
     def update(self, inicio = False):
@@ -89,7 +105,7 @@ class Game():
         else:
             self.jugador1.update(True)
         self.fondo.update(delta_time)
-        self.botonplay1.update()
+        self.botones.update()
 
     def render(self):
         self.ventana.fill((200, 200, 255))
@@ -106,14 +122,15 @@ class Game():
                self.salir = True
             elif event.type == KEYDOWN:
                 if event.key == K_ESCAPE:
-                    self.run=False
-                    self.salir = True
+                    self.pressed_esc = True
+                else:
+                    self.pressed_esc = False
                 if event.key == K_SPACE:
                     self.pressed_space = True
                 else:
                     self.pressed_space = False
-            
-    
+                
+        
     def agregarplataformas(self):
         if not self.ancho_plataforma_anterior:
             print("holadfkjlfdsljkfdsklj", self.dist_primeraplataforma)
@@ -128,7 +145,6 @@ class Game():
         if self.proximaplataforma:
             self.proximaplataforma -= 4
 
-    
     def newplataforma(self):
             
             distancia_maxima = 350
@@ -141,8 +157,6 @@ class Game():
             self.plataformas.add(self.plataforma1)
             self.ancho_plataforma_anterior = newancho
             self.proximaplataforma = random.randint(newancho+60, newancho+distancia_maxima)
-
-
 
     def colisiones(self):
         suelo = pygame.sprite.spritecollideany(self.jugador1, self.plataformas)
@@ -185,13 +199,22 @@ class Game():
                 self.jugador1.posx += suelo.rect.right - self.jugador1.rect.left
                 self.jugador1.velx = 0
 
+    def initlayermenu(self):
+        self.botonplay = Boton_palay(ancho/2, alto/2, 30)
 
-   
+
+        #====== add goup====
+        self.all.add(self.botonplay)
+        self.botones.add(self.botonplay)
+
     def statusobjet(self):
         if self.jugador1.statuskill():
             print("hello")
             self.run = False
-    
+    def killgroup (self, grupo):
+        for uno in grupo:
+            uno.kill()
+
     def salirgame(self):
         pygame.quit()
 
