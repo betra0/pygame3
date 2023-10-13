@@ -19,6 +19,7 @@ class Jugador(objetopy):
         self.impulso_salto = 9
         
         
+    
 
     def update(self, bloq_movimiento = False):
         keys = pygame.key.get_pressed()

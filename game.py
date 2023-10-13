@@ -47,6 +47,7 @@ class Game():
         self.ancho_plataforma_anterior = None
         self.proximaplataforma = None
         self.fps = 60
+        self.delta_time = None
 
         self.run = True
         self.salir = False 
@@ -58,6 +59,7 @@ class Game():
         self.initlayermenu()
         while self.run:
             self.event()
+            self.calculardelta()
             self.update(True)
             self.colisiones()
             self.render()
@@ -73,6 +75,7 @@ class Game():
         while self.run:
             self.event()
             self.agregarplataformas()
+            self.calculardelta()
             self.update()
             self.colisiones()
             self.statusobjet()
@@ -86,25 +89,28 @@ class Game():
     def pausa(self):
         self.pressed_esc = False
         while self.run:
+            self.calculardelta()
             self.event()
             self.render()
-            if self.pressed_esc or self.pressed_space:
+            if self.pressed_esc:
                 break
         pass    
         
-
-    def update(self, inicio = False):
+    def calculardelta(self):
         current_time = pygame.time.get_ticks()  # Tiempo actual
-        delta_time = (current_time - self.last_time) / 1000.0  # Calcular delta_time en segundos
+        self.delta_time = (current_time - self.last_time) / 1000.0  # Calcular delta_time en segundos
         self.last_time = current_time  # Actualizar el tiempo del último ciclo
 
+
+    def update(self, inicio = False):
+        
         
         if not inicio:
             self.plataformas.update()
             self.jugador1.update()
         else:
             self.jugador1.update(True)
-        self.fondo.update(delta_time)
+        self.fondo.update(self.delta_time)
         self.botones.update()
 
     def render(self):
@@ -116,6 +122,7 @@ class Game():
         pygame.display.flip()
 
     def event(self):
+        self.pressed_esc = False
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                self.run=False
