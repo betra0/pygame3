@@ -21,8 +21,8 @@ class Game():
         self.fondo = pygame.sprite.Group()
         self.plataformas= pygame.sprite.Group()
         self.jugador1 = Jugador()
-        #self.botonplay1 = Boton_palay(100, 100, 50, 50)
-        #self.all.add(self.botonplay1)
+        self.botonplay1 = Boton_palay(ancho/2, alto/2, 15)
+        self.all.add(self.botonplay1)
         self.plataforma = Plataforma(ancho, ancho/2, 600)
         self.all.add(self.plataforma)
         self.plataformas.add(self.plataforma)
@@ -69,7 +69,7 @@ class Game():
             self.agregarplataformas()
             self.update()
             self.colisiones()
-            #self.statusobjet()
+            self.statusobjet()
             self.render()
             print(len(self.plataformas))
             
@@ -89,6 +89,7 @@ class Game():
         else:
             self.jugador1.update(True)
         self.fondo.update(delta_time)
+        self.botonplay1.update()
 
     def render(self):
         self.ventana.fill((200, 200, 255))

@@ -16,6 +16,7 @@ class Plataforma(objetopy):
     def update(self):
         self.velpos(-4, 0)
         self.eliminarplataforma()
+
     def eliminarplataforma(self):
         self.killxlimit()
         if self.iskill:
