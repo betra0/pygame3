@@ -87,7 +87,7 @@ class Game():
             self.limitfps.tick(60)
 
     def pausa(self):
-        self.pressed_esc = False
+        
         while self.run:
             self.calculardelta()
             self.event()
@@ -140,7 +140,7 @@ class Game():
         
     def agregarplataformas(self):
         if not self.ancho_plataforma_anterior:
-            print("holadfkjlfdsljkfdsklj", self.dist_primeraplataforma)
+            print(" ", self.dist_primeraplataforma)
             self.dist_primeraplataforma -= 4
             if self.dist_primeraplataforma <= 0:
 
@@ -207,7 +207,7 @@ class Game():
                 self.jugador1.velx = 0
 
     def initlayermenu(self):
-        self.botonplay = Boton_palay(ancho/2, alto/2, 30)
+        self.botonplay = Boton_palay(ancho/2, alto/2, 50)
 
 
         #====== add goup====
