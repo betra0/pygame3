@@ -1,4 +1,4 @@
-from var import *
+from constantes import *
 import pygame
 from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT, 
             K_ESCAPE, KEYDOWN, QUIT, K_w, K_s, K_d, K_a, K_SPACE)

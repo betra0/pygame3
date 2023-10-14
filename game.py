@@ -2,16 +2,16 @@ import pygame
 from jugador import (Jugador, objetopy)
 from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT, 
             K_ESCAPE, KEYDOWN, QUIT, K_w, K_s, K_d, K_a, K_SPACE)
-from var import (size, ancho, alto)
+from constantes import *
 from background import Background
 from plataformas import Plataforma
-from botones import Boton_palay
+from layer import layers
 import random
 class Game():
     def __init__(self):
         pygame.init()
         pygame.mixer.init()
-        self.ventana = pygame.display.set_mode(size)
+        self.ventana = pygame.display.set_mode(SIZE)
         pygame.display.set_caption("PY GAME")
         self.limitfps = pygame.time.Clock()
         self.initialize()
@@ -21,13 +21,14 @@ class Game():
         self.all = pygame.sprite.Group()
         self.fondo = pygame.sprite.Group()
         self.plataformas= pygame.sprite.Group()
-        self.botones = pygame.sprite.Group()
         #=============FIN====================
         #============0Init objetos0========
         self.jugador1 = Jugador()
-        self.plataforma = Plataforma(ancho, ancho/2, 600)
+        self.plataforma = Plataforma(ANCHO, ANCHO/2, 600)
         self.background1 = Background(True, 20, "2", 0)
         self.background2 = Background(False, 50, "3", 40)
+        #init administrador de layer
+        self.layers =layers()
         #================FIN===============
         #==============ADD.Group========
         self.all.add(self.plataforma)
@@ -56,18 +57,18 @@ class Game():
 
     def menurun(self):
         #inicializar botonoes menu
-        self.initlayermenu()
+        
         while self.run:
             self.event()
             self.calculardelta()
             self.update(True)
             self.colisiones()
             self.render()
-            if self.pressed_space or self.botonplay.botonpresionado:
+            if self.pressed_space:
                 break
             self.limitfps.tick(60)
 
-        self.killgroup(self.botones)    
+        self.layers.menuoff()
         self.mainrun()
         return self.salir
        
@@ -111,13 +112,14 @@ class Game():
         else:
             self.jugador1.update(True)
         self.fondo.update(self.delta_time)
-        self.botones.update()
+        self.layers.update()
 
     def render(self):
         self.ventana.fill((200, 200, 255))
         for backgroundlol in self.fondo:
             backgroundlol.render(self.ventana)
         self.all.draw(self.ventana)
+        self.layers.draw(self.ventana)
         
         pygame.display.flip()
 
@@ -156,8 +158,8 @@ class Game():
             
             distancia_maxima = 350
             newancho = random.randint(70, 500)
-            x = ancho + newancho//2
-            newalto = random.randint(450,alto-50)
+            x = ANCHO + newancho//2
+            newalto = random.randint(450,ALTO-50)
             self.plataforma1 = Plataforma(newancho, x, newalto)
              
             self.all.add(self.plataforma1)
@@ -207,12 +209,8 @@ class Game():
                 self.jugador1.velx = 0
 
     def initlayermenu(self):
-        self.botonplay = Boton_palay(ancho/2, alto/2, 50)
+        pass
 
-
-        #====== add goup====
-        self.all.add(self.botonplay)
-        self.botones.add(self.botonplay)
 
     def statusobjet(self):
         if self.jugador1.statuskill():

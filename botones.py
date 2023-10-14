@@ -1,10 +1,10 @@
-from var import *
+from constantes import *
 import pygame
 from clasespy import objetopy
 import os
 dir = "sprites/"
 
-class Boton_palay(objetopy):
+class Boton_play(objetopy):
     def __init__(self,  x, y, tamaño):
         super().__init__(x, y)
         ancho_p = 4

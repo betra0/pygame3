@@ -1,11 +1,11 @@
-from var import *
+from constantes import *
 import pygame
 
 class objetopy(pygame.sprite.Sprite):
     def __init__(self, x=0, y=0):
         super().__init__()
         self.posx, self.posy = x, y
-        self.tamaño = tamaño_player
+        self.tamaño = 50
         self.image = pygame.Surface((self.tamaño, self.tamaño))
         self.image.fill((100, 128, 255))
         self.rect = self.image.get_rect()
@@ -38,8 +38,8 @@ class objetopy(pygame.sprite.Sprite):
         self.rect.center =round(self.posx), round(self.posy)
 
     def simularparedes(self):
-        if self.posy+self.tamaño/2 > alto:
-            self.posy = alto-self.tamaño/2
+        if self.posy+self.tamaño/2 > ALTO:
+            self.posy = ALTO-self.tamaño/2
             self.savepos(y = self.posy)
 
     def simulargravedad(self):
@@ -49,7 +49,7 @@ class objetopy(pygame.sprite.Sprite):
         retorno = False
         if not self.sueloartificial :
         
-            if self.posy+self.tamaño/2+n >= alto and pizolimite:
+            if self.posy+self.tamaño/2+n >= ALTO and pizolimite:
                 retorno = True
         else:
             retorno = True
@@ -68,7 +68,7 @@ class objetopy(pygame.sprite.Sprite):
             self.velx += fricion
     def killxlimit(self ,limitleft = True, limitecaida = True, limite2 = True, limitetecho =True):
         #print(self.rect.top,  self.rect.right)
-        if limitecaida and self.rect.top > alto+15:
+        if limitecaida and self.rect.top > ALTO+15:
             
             self.iskill = True
         if limitleft and self.rect.right < -10:

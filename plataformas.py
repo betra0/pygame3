@@ -1,12 +1,12 @@
-from var import *
+from constantes import *
 import pygame
 from clasespy import objetopy
 
 class Plataforma(objetopy):
     def __init__(self, ancho_plataforma, x, ytop):
-        y = ((alto -ytop))//2+ytop
+        y = ((ALTO -ytop))//2+ytop
         super().__init__(x, y)
-        self.image = pygame.Surface((ancho_plataforma, ((alto -ytop))))
+        self.image = pygame.Surface((ancho_plataforma, ((ALTO -ytop))))
         self.image.fill((80, 80, 120))
         self.initrect()
         self.info = "hola que hace dsajkl"

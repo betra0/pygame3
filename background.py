@@ -1,5 +1,5 @@
 import pygame
-from var import (ancho, alto)
+from constantes import (ANCHO, ALTO)
 
 ASSET_WIDTH = 576
 ASSET_HEIGHT = 524
@@ -26,9 +26,9 @@ class Background(pygame.sprite.Sprite):
         self.file_num = file_num
         if (self.add_background):
             self.background_surf = pygame.image.load("sprites/1 Backgrounds/1/Night/1.png").convert_alpha()
-            self.background_surf = pygame.transform.scale(self.background_surf, (ancho,self.background_surf.get_height()))
+            self.background_surf = pygame.transform.scale(self.background_surf, (ANCHO,self.background_surf.get_height()))
             self.background_rect = self.background_surf.get_rect()
-            self.background_rect.y = alto - self.background_rect.height
+            self.background_rect.y = ALTO - self.background_rect.height
 
         self.surfaces = []
         self.rects = []
@@ -55,7 +55,7 @@ class Background(pygame.sprite.Sprite):
     def setup_assets(self):
         for i, pos in enumerate(self.positions):
             pos.x = ASSET_WIDTH * i
-            pos.y = alto - self.rects[i].height + self.y_offset
+            pos.y = ALTO - self.rects[i].height + self.y_offset
             self.rects[i].x = pos.x
             self.rects[i].y = pos.y
 
