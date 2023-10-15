@@ -15,9 +15,7 @@ class Botones(objetopy):
         self.image = pygame.image.load(imagen_path).convert_alpha()
         self.image = pygame.transform.scale(self.image, (tamaño*2, tamaño*2))
 
-        #nuevo_ancho = self.image.get_width() * tamaño
-        #nuevo_alto = self.image.get_height() * tamaño
-        #self.image = pygame.transform.smoothscale(self.image, (nuevo_ancho, nuevo_alto))
+
 
     def botonpresionado(self):
         return self.boton_pressed

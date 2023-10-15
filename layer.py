@@ -21,10 +21,19 @@ class layers():
         self.pressed_salir = False
         self.pressed_continuar = False
         
+        self.contadorciclo = 3
+        
         self.initmenu()
         self.initpausa()
+        self.initmainrun()
 
-    def update(self):
+    def update(self, delta):
+        self.contadorciclo -= 1
+        ciclo = False
+        if self.contadorciclo == 0:
+            self.contadorciclo = 3
+            ciclo =True
+
         if self.menu:
             self.menulayer.update()
 
@@ -38,6 +47,9 @@ class layers():
             self.pressed_continuar = self.botoncontinuar.botonpresionado()
         if self.main:
             self.mainrun.update()
+            if ciclo:
+                fps = self.calcularfps(delta)
+                self.textoFPS.actualizar_texto(f"Fps:{fps}",)
 
     def draw(self, ventana):
         if self.menu:
@@ -65,7 +77,8 @@ class layers():
         self.menulayer.add(self.botonsalir)
         self.menulayer.add(self.botonoption)
     def initmainrun(self):
-        pass
+        self.textoFPS = texto1(ANCHO/15, ALTO/1.05, 30, "Fps: ", )
+        self.mainrun.add(self.textoFPS)
     def pausaon(self):
         self.pausa = True
         pass
@@ -83,7 +96,10 @@ class layers():
         return self.pressed_salir
     def continuarpresionado(self):
         return self.pressed_continuar
-    
+    def calcularfps(self, delta):
+        # Calcula los FPS
+        fps = round(1.0 / delta)
+        return fps
     
 
 

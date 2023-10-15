@@ -77,7 +77,7 @@ class Game():
         return self.salir
        
     def mainrun(self):
-        
+        self.layers.mainon()
         while self.run:
             self.event()
             self.agregarplataformas()
@@ -90,7 +90,8 @@ class Game():
                 print(" ")
                 self.pausa()
             
-            self.limitfps.tick(60)
+            retardo = self.limitfps.tick(30)
+            #print("retardo agregado", retardo)
 
     def pausa(self):
         self.layers.pausaon()
@@ -123,7 +124,7 @@ class Game():
             else:
                 self.jugador1.update(True)
             self.fondo.update(self.delta_time)
-        self.layers.update()
+        self.layers.update(self.delta_time)
 
     def render(self):
         self.ventana.fill((200, 200, 255))
