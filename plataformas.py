@@ -9,7 +9,7 @@ class Plataforma(objetopy):
         self.image = pygame.Surface((ancho_plataforma, ((ALTO -ytop))))
         self.image.fill((80, 80, 120))
         self.initrect()
-        self.info = "hola que hace dsajkl"
+        self.info = "nonexd"
 
 
 

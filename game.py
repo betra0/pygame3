@@ -1,5 +1,5 @@
 import pygame
-from jugador import (Jugador, objetopy)
+from jugador import (Jugador, )
 from pygame.locals import (K_UP, K_DOWN, K_LEFT, K_RIGHT, 
             K_ESCAPE, KEYDOWN, QUIT, K_w, K_s, K_d, K_a, K_SPACE)
 from constantes import *
@@ -38,8 +38,7 @@ class Game():
         self.all.add(self.jugador1)
 
         
-
-        #====init controles externos
+        #====init var controles externos
         self.pressed_space = False
         self.pressed_esc = False
         #======
@@ -64,8 +63,13 @@ class Game():
             self.update(True)
             self.colisiones()
             self.render()
-            if self.pressed_space:
+
+            if self.pressed_space or self.layers.playpresionado():
                 break
+            if self.layers.salirpresionado():
+                self.run=False
+                self.salir = True
+
             self.limitfps.tick(60)
 
         self.layers.menuoff()
@@ -73,6 +77,7 @@ class Game():
         return self.salir
        
     def mainrun(self):
+        
         while self.run:
             self.event()
             self.agregarplataformas()
@@ -82,19 +87,26 @@ class Game():
             self.statusobjet()
             self.render()
             if self.pressed_esc:
-                print("hola")
+                print(" ")
                 self.pausa()
             
             self.limitfps.tick(60)
 
     def pausa(self):
-        
+        self.layers.pausaon()
         while self.run:
             self.calculardelta()
+            self.update(pausa=True)
             self.event()
             self.render()
-            if self.pressed_esc:
+            if self.pressed_esc or self.layers.continuarpresionado():
                 break
+            if self.layers.salirpresionado():
+                self.run=False
+                self.salir = True
+
+            self.limitfps.tick(30)
+        self.layers.pausaoff()
         pass    
         
     def calculardelta(self):
@@ -103,15 +115,14 @@ class Game():
         self.last_time = current_time  # Actualizar el tiempo del último ciclo
 
 
-    def update(self, inicio = False):
-        
-        
-        if not inicio:
-            self.plataformas.update()
-            self.jugador1.update()
-        else:
-            self.jugador1.update(True)
-        self.fondo.update(self.delta_time)
+    def update(self, inicio = False, pausa = False):
+        if not pausa:
+            if not inicio:
+                self.plataformas.update()
+                self.jugador1.update()
+            else:
+                self.jugador1.update(True)
+            self.fondo.update(self.delta_time)
         self.layers.update()
 
     def render(self):
