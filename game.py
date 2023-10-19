@@ -90,7 +90,7 @@ class Game():
                 print(" ")
                 self.pausa()
             
-            retardo = self.limitfps.tick(30)
+            retardo = self.limitfps.tick(60)
             #print("retardo agregado", retardo)
 
     def pausa(self):
@@ -191,7 +191,6 @@ class Game():
                 #print(self.jugador1.rect.right-10, suelo.rect.left, "      ",self.jugador1.rect.left-10, suelo.rect.right)
                 if  self.jugador1.rect.right-10 > suelo.rect.left:
                     
-                    print(("se  logro"))
                     self.jugador1.posy -= self.jugador1.rect.bottom  - suelo.rect.top 
                     self.jugador1.savepos()
                     self.jugador1.obtenerpisoinfo(suelo)
@@ -226,7 +225,6 @@ class Game():
 
     def statusobjet(self):
         if self.jugador1.statuskill():
-            print("hello")
             self.run = False
     def killgroup (self, grupo):
         for uno in grupo:

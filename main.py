@@ -7,4 +7,10 @@ while not salir:
     #juego.__init__()
     juego.initialize()
     salir = juego.menurun()
-juego.salirgame()        
+juego.salirgame() 
+
+    
+
+
+
+         
